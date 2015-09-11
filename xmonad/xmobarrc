@@ -1,0 +1,15 @@
+Config { font = "xft:Fira Mono for Powerline:size=9"
+, bgColor = "#262626"
+, fgColor = "#FDE9D5"
+, position = Static { xpos = 0 , ypos = 0, width = 1720, height = 18 }
+, lowerOnStart = True
+, commands = [ Run StdinReader
+	     , Run Network "wlan0" ["-L","0","-H","32","--normal","#8DAC03","--high","#FF8701"] 10
+             , Run Cpu ["-L","3","-H","50","--normal","#8DAC03","--high","#FF8701"] 10
+             , Run Memory ["-t","Mem: <usedratio>%"] 10
+             , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+             ]
+, sepChar = "%"
+, alignSep = "}{"
+, template = "%StdinReader% | %cpu% | %memory% | %wlan0% }{<fc=#BD5542>%date%</fc>"
+}

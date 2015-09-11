@@ -1,0 +1,20 @@
+#!/bin/bash
+#setup gb keyboard
+setxkbmap -layout "gb"
+#setup cursor
+xsetroot -cursor_name left_ptr
+#setup screen effects
+xcompmgr&
+
+#setup keyboard
+xkbcomp ~/config/gb.kb $DISPLAY
+
+xrandr --output DVI-I-1 --mode 1920x1080 --pos 0x0 --rotate normal --primary --output DVI-I-2 --mode 1920x1080 --pos 1920x0 --rotate left --right-of DVI-I-1
+
+killall nm-applet
+nm-applet&
+skype&
+gnome-sound-applet&
+
+killall trayer
+exec trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --widthtype pixel --width 200 --transparent true --alpha 0 --tint 0x262626 --height 18 

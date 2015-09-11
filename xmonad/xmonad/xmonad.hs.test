@@ -1,0 +1,34 @@
+import XMonad
+import XMonad.Hooks.Script
+import XMonad.Hooks.DynamicLog
+import XMonad.Actions.UpdatePointer
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.ManageDocks
+import XMonad.Config.Desktop
+ 
+main = xmonad  =<< statusBar myBar myPP toggleStrutsKey myConfig
+
+myBar = "xmobar"
+myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "<" ">", ppTitle = xmobarColor "#429942" "" . shorten 70}
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
+
+myConfig = defaultConfig
+	{ 
+		terminal = "terminator"
+		, focusedBorderColor = "blue"
+		, borderWidth = 2
+		, focusFollowsMouse = False 
+		, logHook = dynamicLog >> updatePointer (Relative 0.95 0.95)
+		, manageHook = myManageHook <+> manageDocks <+> myTransientManageHook
+		, startupHook = spawn "~/.xmonad/autostart"
+	}
+myManageHook = composeAll
+	[
+		className =? "Xfce4-notifyd" --> doIgnore
+		, className =? "Skype" --> doShift "4"
+		, className =? "Thunderbird" --> doShift "4"
+	]
+myTransientManageHook = composeOne
+	[
+		transience', className =? "Chromium-browser" --> (doIgnore <+> doShift "9")
+	]
